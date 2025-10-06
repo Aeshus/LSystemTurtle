@@ -1,5 +1,7 @@
 # UEFI L-System & Turtle Graphics
 
+![Screenshot](.github/image.png)
+
 This project implements an L-System as described in _The Algorithmic Beauty Of Plants, by  Przemyslaw Prusinkiewicz, Aristid Lindenmayer_. 
 
 It consists of a string expander system, based on dynamic rules, which are then run on an initial input ("axiom").
