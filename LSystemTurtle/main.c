@@ -9,7 +9,9 @@ UefiMain (
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  Print(L"Hello, UEFI World!\n");
+  SystemTable->ConOut->ClearScreen(SystemTable->ConOut);
+
+  Print(L"Welcome to L-System Turtle.");
 
   while (1) {} ;
 
