@@ -5,7 +5,7 @@
   DSC_SPECIFICATION              = 0x00010005
   OUTPUT_DIRECTORY               = Build/LSystemTurtle
   SUPPORTED_ARCHITECTURES        = X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = RELEASE
 
 [LibraryClasses]
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
@@ -23,4 +23,4 @@
   StackCheckLib|MdePkg/Library/StackCheckLibNull/StackCheckLibNull.inf
 
 [Components]
-  LSystemTurtlePkg/LSystemTurtle/LSystemTurtle.inf
+  LSystemTurtle/LSystemTurtle/LSystemTurtle.inf
