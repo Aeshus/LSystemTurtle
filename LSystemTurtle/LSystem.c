@@ -15,8 +15,6 @@ Rule *rule_create(CHAR16 match, CHAR16 *replace) {
         r->replace[i] = replace[i];
     }
 
-    r->replace[r->len + 1] = L'\0';
-
     return r;
 }
 
@@ -33,8 +31,6 @@ String *string_create(CHAR16 *str) {
     for (UINTN i = 0; i <= s->len; i++) {
         s->str[i] = str[i];
     }
-
-    s->str[s->len + 1] = L'\0';
 
     return s;
 }
