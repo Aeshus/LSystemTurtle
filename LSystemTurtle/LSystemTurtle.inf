@@ -8,6 +8,7 @@
 
 [Sources]
   main.c
+  LSystem.c
 
 [Packages]
   MdePkg/MdePkg.dec
