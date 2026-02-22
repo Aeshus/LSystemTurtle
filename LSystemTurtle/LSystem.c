@@ -40,12 +40,12 @@ void string_free(String *str) {
   FreePool(str);
 }
 
-String *evaluate_string(UINTN count, Rule *rules[count], String *input) {
+String *evaluate_string(UINTN count, Rule *rules, String *input) {
   UINTN new_size = input->len;
   for (int i = 0; i < input->len; i++) {
     for (int j = 0; j < count; j++) {
-      if (input->str[i] == rules[j]->match) {
-        new_size += rules[j]->len - 1;
+      if (input->str[i] == rules[j].match) {
+        new_size += rules[j].len - 1;
         break;
       }
     }
@@ -58,9 +58,9 @@ String *evaluate_string(UINTN count, Rule *rules[count], String *input) {
     int matched = 0;
 
     for (int j = 0; j < count; j++) {
-      if (input->str[i] == rules[j]->match) {
-        for (int k = 0; k < rules[j]->len; k++) {
-          str[offset++] = rules[j]->replace[k];
+      if (input->str[i] == rules[j].match) {
+        for (int k = 0; k < rules[j].len; k++) {
+          str[offset++] = rules[j].replace[k];
         }
         matched = 1;
         break;

@@ -148,31 +148,17 @@ void draw_line(UINTN screen_width, UINTN screen_height,
 
   INTN dx = abs(x1 - x0);
   INTN dy = abs(y1 - y0);
-
   INTN is_steep = dy > dx;
 
   if (is_steep) {
-    INTN temp = x0;
-    x0 = y0;
-    y0 = temp;
-
-    temp = x1;
-    x1 = y1;
-    y1 = temp;
-
-    temp = dx;
-    dx = dy;
-    dy = temp;
+    INTN temp = x0; x0 = y0; y0 = temp;
+    temp = x1; x1 = y1; y1 = temp;
+    temp = dx; dx = dy; dy = temp;
   }
 
   if (x0 > x1) {
-    INTN temp = x0;
-    x0 = x1;
-    x1 = temp;
-
-    temp = y0;
-    y0 = y1;
-    y1 = temp;
+    INTN temp = x0; x0 = x1; x1 = temp;
+    temp = y0; y0 = y1; y1 = temp;
   }
 
   INTN y_step = (y0 < y1) ? 1 : -1;
@@ -180,35 +166,31 @@ void draw_line(UINTN screen_width, UINTN screen_height,
   INTN y = y0;
 
   INTN length = isqrt((int)((dx * dx) + (dy * dy)));
-  if (length == 0)
-    length = 1;
+  if (length == 0) length = 1;
   INTN distance_scale = (256 * dx) / length;
 
   for (INTN x = x0; x <= x1; x++) {
     INTN error_fraction = (error * 256) / (dx == 0 ? 1 : dx);
-
     INTN dist = (error_fraction * distance_scale) / 256;
 
-    INTN alpha_center = 255;
-    INTN alpha_above = 255 - abs(dist - distance_scale);
-    INTN alpha_below = 255 - abs(dist + distance_scale);
+    INTN alpha_center    = 255 - abs(dist);
+    INTN alpha_above     = 255 - abs(dist - distance_scale);
+    INTN alpha_below     = 255 - abs(dist + distance_scale);
     INTN alpha_far_above = 255 - abs(dist - 2 * distance_scale);
     INTN alpha_far_below = 255 - abs(dist + 2 * distance_scale);
 
     if (is_steep) {
       blend_pixel(screen_width, screen_height, buffer, y, x, alpha_center);
-      blend_pixel(screen_width, screen_height, buffer, y - y_step, x, 255);
-      blend_pixel(screen_width, screen_height, buffer, y + y_step, x,
-                  alpha_below);
-      blend_pixel(screen_width, screen_height, buffer, y - 2 * y_step, x,
-                  alpha_far_above);
+      blend_pixel(screen_width, screen_height, buffer, y - y_step, x, alpha_above);
+      blend_pixel(screen_width, screen_height, buffer, y + y_step, x, alpha_below);
+      blend_pixel(screen_width, screen_height, buffer, y - 2 * y_step, x, alpha_far_above);
+      blend_pixel(screen_width, screen_height, buffer, y + 2 * y_step, x, alpha_far_below);
     } else {
       blend_pixel(screen_width, screen_height, buffer, x, y, alpha_center);
-      blend_pixel(screen_width, screen_height, buffer, x, y - y_step, 255);
-      blend_pixel(screen_width, screen_height, buffer, x, y + y_step,
-                  alpha_below);
-      blend_pixel(screen_width, screen_height, buffer, x, y - 2 * y_step,
-                  alpha_far_above);
+      blend_pixel(screen_width, screen_height, buffer, x, y - y_step, alpha_above);
+      blend_pixel(screen_width, screen_height, buffer, x, y + y_step, alpha_below);
+      blend_pixel(screen_width, screen_height, buffer, x, y - 2 * y_step, alpha_far_above);
+      blend_pixel(screen_width, screen_height, buffer, x, y + 2 * y_step, alpha_far_below);
     }
 
     error -= dy;
@@ -268,6 +250,11 @@ void turtle_run(UINTN screen_width, UINTN screen_height,
       t = n;
       break;
     }
-    }
+  }
+}
+
+  turtle_free(t);
+  if (ts != NULL) {
+    turtle_stack_free(ts);
   }
 }

@@ -20,6 +20,6 @@ struct String {
 
 String *string_create(CHAR16 *str);
 void string_free(String *str);
-String *evaluate_string(UINTN count, Rule *rules[count], String *input);
+String *evaluate_string(UINTN count, Rule *rules, String *input);
 
 #endif // EDK2_LSYSTEM_H
