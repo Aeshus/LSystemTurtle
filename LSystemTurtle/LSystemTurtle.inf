@@ -9,6 +9,7 @@
 [Sources]
   main.c
   LSystem.c
+  Turtle.c
 
 [Packages]
   MdePkg/MdePkg.dec

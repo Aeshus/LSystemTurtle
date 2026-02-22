@@ -1,20 +1,16 @@
-#include <Uefi.h>
-#include <Library/UefiLib.h>
-#include <Library/UefiBootServicesTableLib.h>
-#include <Library/MemoryAllocationLib.h>
 #include "LSystem.h"
 #include "Turtle.h"
+#include <Library/MemoryAllocationLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+#include <Library/UefiLib.h>
+#include <Uefi.h>
 
 /**
  * The main function of the LSystemTurtle.
  */
 EFI_STATUS
 EFIAPI
-UefiMain (
-  IN EFI_HANDLE        ImageHandle,
-  IN EFI_SYSTEM_TABLE  *SystemTable
-  )
-{
+UefiMain(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable) {
   SystemTable->ConOut->ClearScreen(SystemTable->ConOut);
 
   String *input = string_create(L"F-F-F-F");
@@ -29,29 +25,20 @@ UefiMain (
     val = output;
   }
 
-  Print(val->str);
-
   EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
   gBS->LocateProtocol(&gEfiGraphicsOutputProtocolGuid, NULL, (VOID **)&gop);
   UINTN width = gop->Mode->Info->HorizontalResolution;
   UINTN height = gop->Mode->Info->VerticalResolution;
   UINTN buffer_size = width * height * sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL);
-  EFI_GRAPHICS_OUTPUT_BLT_PIXEL *buffer = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)AllocateZeroPool(buffer_size);
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL *buffer =
+      (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)AllocateZeroPool(buffer_size);
 
   turtle_run(width, height, buffer, val, 5, 90);
 
-  //gop->Blt(
-  //      gop,
-  //      buffer,
-  //      EfiBltBufferToVideo,
-  //      0, 0,
-  //      0, 0,
-  //      width, height,
-  //      0
-  //);
+  gop->Blt(gop, buffer, EfiBltBufferToVideo, 0, 0, 0, 0, width, height, 0);
 
-
-  while (1);
+  while (1)
+    ;
 
   return EFI_SUCCESS;
 }
